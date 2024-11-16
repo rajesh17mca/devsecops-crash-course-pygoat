@@ -1,4 +1,4 @@
-name: ci_rajesh
+name: ci_rajesh_pipeline
 
 on: [push]
 
