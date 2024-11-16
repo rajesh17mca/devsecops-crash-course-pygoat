@@ -27,3 +27,26 @@ jobs:
             with:
                 name: bendit-findings
                 path: bendit-report.json
+
+    image_scan:
+        name: Build Image and Run Image scan
+        runs-on: ubuntu-latest
+        steps:
+          - name: Code checkout
+            uses: actions/checkout@v2
+
+          - name: install Docker
+            uses: docker-practice/actions-setup-docker@v1
+            with:
+                docker_version: 20.10
+                
+          - name: Build Docker image
+            run: docker build -t myapp-appv01:latest -f Dockerfile .
+
+          - name: Docker Scout run
+            run: |
+                curl -fsSL https://raw.githubusercontent.com/docker/scout-cli/main/install.sh -o install-scout.sh
+                sh install-scout.sh
+                docker scout quickview
+                docker scout cves
+            
